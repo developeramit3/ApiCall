@@ -1,10 +1,14 @@
 Add it in your root build.gradle at the end of repositories:
 "# ApiCall"
 
-allprojects {
+
+     allprojects {
+
 		repositories {
-			...
-			maven { url 'https://jitpack.io' }
+		
+			maven { 
+			url 'https://jitpack.io' 
+			}
 		}
 	}
 		
@@ -19,7 +23,7 @@ allprojects {
 Step 3. How use
 "# ApiCall"				
 				
- new ApiCallBuilder().build(this)
+    new ApiCallBuilder().build(this)
                 .isShowProgressBar(true)
                 .setParam(getParam())
                 .setUrl("url")
@@ -42,4 +46,6 @@ Step 3. How use
         return param;
     }
     
-    "# ApiCall"
+    
+    
+   "# ApiCall"
