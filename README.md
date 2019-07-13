@@ -1,4 +1,5 @@
 Add it in your root build.gradle at the end of repositories:
+"# ApiCall"
 
 allprojects {
 		repositories {
@@ -13,10 +14,10 @@ allprojects {
 	        implementation 'com.github.developeramit3:ApiCall:3f69458b5d'
 	}
 	
-        
+ "# ApiCall"       
 				
 Step 3. How use
-				
+"# ApiCall"				
 				
  new ApiCallBuilder().build(this)
                 .isShowProgressBar(true)
@@ -40,3 +41,5 @@ Step 3. How use
         HashMap<String,String>param=new HashMap<>();
         return param;
     }
+    
+    "# ApiCall"
