@@ -50,6 +50,14 @@ public class ApiCallBuilder {
         }
         return this;
     }
+    public ApiCallBuilder isShowProgressBar(boolean b,ProgressStyle style){
+        if (b&&mContext!=null){
+           progress=new ProgressDialogBuilder(mContext)
+                    .setProgressStyle(style);
+           progress.show();
+        }
+        return this;
+    }
     public ApiCallBuilder setParam(HashMap<String,String> map){
         for (Map.Entry<String, String> entry : map.entrySet()) {
             builder.addFormDataPart(entry.getKey(),entry.getValue());
