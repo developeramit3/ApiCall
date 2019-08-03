@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private HashMap<String, String> getParam() {
-        return null;
+        HashMap<String,String>param=new HashMap<>();
+        return param;
     }
 }

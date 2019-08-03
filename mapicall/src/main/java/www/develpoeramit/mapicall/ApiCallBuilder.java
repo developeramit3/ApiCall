@@ -27,9 +27,8 @@ public class ApiCallBuilder {
     private static final String TAG = "ApiCallBuilder";
     private MultipartBody.Builder builder;
     private Activity mContext;
-    private ProgressDialog progress;
+    private ProgressDialogBuilder progress;
     private String mUrl="";
-    private boolean isSetParam=false;
     private boolean isSetFile=true;
 
     public ApiCallBuilder build(Activity context){
@@ -45,12 +44,13 @@ public class ApiCallBuilder {
     }
     public ApiCallBuilder isShowProgressBar(boolean b){
         if (b&&mContext!=null){
-            progress=new ProgressDialog(mContext);
+           progress=new ProgressDialogBuilder(mContext)
+                    .setProgressStyle(ProgressStyle.STYLE_3);
+           progress.show();
         }
         return this;
     }
     public ApiCallBuilder setParam(HashMap<String,String> map){
-        isSetParam=!map.isEmpty();
         for (Map.Entry<String, String> entry : map.entrySet()) {
             builder.addFormDataPart(entry.getKey(),entry.getValue());
         }
@@ -102,8 +102,6 @@ public class ApiCallBuilder {
     public void execute(final onResponse callback) {
         if (progress!=null) progress.show();
         if (mUrl=="") {callback.Failed("Url not set.");return;}
-        if (!isSetParam) {callback.Failed("Parameter not set");return;}
-        if (!isSetFile) {callback.Failed("File not found");return;}
         RequestBody requestBody = builder.build();
         Request request = new Request.Builder()
                 .url(mUrl)
