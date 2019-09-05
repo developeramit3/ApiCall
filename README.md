@@ -45,7 +45,7 @@ Step 3. How use
         HashMap<String,String>param=new HashMap<>();
         return param;
     }
-    
+    [![](https://jitpack.io/v/developeramit3/ApiCall.svg)](https://jitpack.io/#developeramit3/ApiCall)
     
     
    "# ApiCall"
