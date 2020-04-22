@@ -15,7 +15,7 @@ Add it in your root build.gradle at the end of repositories:
 	Step 2. Add the dependency
 	
 	dependencies {
-	        implementation 'com.github.developeramit3:ApiCall:d8a713a9c4'
+	        implementation 'com.github.developeramit3:ApiCall:8d80aff992'
 	}
 	
  "# ApiCall"       
@@ -45,6 +45,8 @@ Step 3. How use
         HashMap<String,String>param=new HashMap<>();
         return param;
     }
+   [![](https://jitpack.io/v/developeramit3/ApiCall.svg)](https://jitpack.io/#developeramit3/ApiCall)
+   
    [![](https://jitpack.io/v/developeramit3/ApiCall.svg)](https://jitpack.io/#developeramit3/ApiCall)
     
     
