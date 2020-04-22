@@ -5,7 +5,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.StrictMode;
+import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,18 +28,21 @@ public class ApiCallBuilder {
     private Handler mHandler;
     private static final String TAG = "ApiCallBuilder";
     private MultipartBody.Builder builder;
-    private Activity mContext;
+    private Context mContext;
     private ProgressDialogBuilder progress;
     private String mUrl="";
-    private boolean isSetFile=true;
 
-    public ApiCallBuilder build(Activity context){
-        this.mContext=context;
+    public static ApiCallBuilder build(Context context){
+        return new ApiCallBuilder(context);
+    }
+
+    public ApiCallBuilder(Context mContext) {
+        this.mContext = mContext;
         builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        return this;
     }
+
     public ApiCallBuilder setUrl(String url){
         this.mUrl=url;
         return this;
@@ -46,7 +51,6 @@ public class ApiCallBuilder {
         if (b&&mContext!=null){
            progress=new ProgressDialogBuilder(mContext)
                     .setProgressStyle(ProgressStyle.STYLE_3);
-           progress.show();
         }
         return this;
     }
@@ -54,7 +58,6 @@ public class ApiCallBuilder {
         if (b&&mContext!=null){
            progress=new ProgressDialogBuilder(mContext)
                     .setProgressStyle(style);
-           progress.show();
         }
         return this;
     }
@@ -65,7 +68,6 @@ public class ApiCallBuilder {
         return this;
     }
     public ApiCallBuilder setFilePathArray(String key, ArrayList<String> filePaths){
-        isSetFile=filePaths.isEmpty();
         for (int i = 0; i < filePaths.size(); i++) {
             Uri resimUri = Uri.parse(filePaths.get(i));
             File file = new File(resimUri.getPath());
@@ -74,7 +76,6 @@ public class ApiCallBuilder {
         return this;
     }
     public ApiCallBuilder setFileUriArray(String key,ArrayList<Uri> filePaths){
-        isSetFile=filePaths.isEmpty();
         for (int i = 0; i < filePaths.size(); i++) {
             File file = new File(filePaths.get(i).getPath());
             builder.addFormDataPart(key, file.getName(), RequestBody.create(MediaType.parse("multipart/form-data"), file));
@@ -85,16 +86,12 @@ public class ApiCallBuilder {
         if (imageUri!=null) {
             File file = new File(imageUri.getPath());
             builder.addFormDataPart(key, file.getName(), RequestBody.create(MediaType.parse("multipart/form-data"), file));
-        }else {
-            isSetFile=false;
         }
         return this;
     }
     public ApiCallBuilder setFile(String key,File file){
         if (file.exists()) {
             builder.addFormDataPart(key, file.getName(), RequestBody.create(MediaType.parse("multipart/form-data"), file));
-        }else {
-            isSetFile=false;
         }
         return this;
     }
@@ -102,14 +99,21 @@ public class ApiCallBuilder {
         File file = new File(path);
         if (file.exists()) {
             builder.addFormDataPart(key, file.getName(), RequestBody.create(MediaType.parse("multipart/form-data"), file));
-        }else {
-            isSetFile=false;
         }
         return this;
     }
     public void execute(final onResponse callback) {
+        if (mUrl.isEmpty()) {
+            callback.Failed("Url not set.");
+            return;
+        }else if (!mUrl.contains("http")){
+            callback.Failed("Expected URL scheme 'http' or 'https' but no colon was found");
+            return;
+        }
+        if (builder.getClass().getFields().length==0){
+            builder.addFormDataPart("","");
+        }
         if (progress!=null) progress.show();
-        if (mUrl=="") {callback.Failed("Url not set.");return;}
         RequestBody requestBody = builder.build();
         Request request = new Request.Builder()
                 .url(mUrl)
@@ -119,8 +123,7 @@ public class ApiCallBuilder {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, final IOException e) {
-                mContext.runOnUiThread(new Runnable() {
-                    @Override
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
                     public void run() {
                         if (progress != null)
                             progress.dismiss();
@@ -130,9 +133,8 @@ public class ApiCallBuilder {
             }
 
             @Override
-            public void onResponse(Call call, final Response response) throws IOException {
-                mContext.runOnUiThread(new Runnable() {
-                    @Override
+            public void onResponse(final Call call, final Response response) throws IOException {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
                     public void run() {
                         if (progress != null)
                             progress.dismiss();
