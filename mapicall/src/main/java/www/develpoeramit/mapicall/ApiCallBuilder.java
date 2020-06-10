@@ -120,6 +120,8 @@ public class ApiCallBuilder {
                 .post(requestBody)
                 .build();
         OkHttpClient client = new OkHttpClient();
+
+
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, final IOException e) {
@@ -138,11 +140,14 @@ public class ApiCallBuilder {
                     public void run() {
                         if (progress != null)
                             progress.dismiss();
-                        try {
-                            callback.Success(response.body().string());
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                        if (response.isSuccessful()){
+                            try {
+                                callback.Success(response.body().string());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
+
                     }
                 });
             }
