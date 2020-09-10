@@ -50,14 +50,6 @@ public class ApiCallBuilder {
     }
     public ApiCallBuilder setMethod(Method method){
         this.method=method;
-        switch (method){
-            case GET:
-                builder=new Request.Builder();
-                break;
-            case POST:
-                Multipartbuilder = new MultipartBody.Builder().setType(MultipartBody.FORM);
-                break;
-        }
         return this;
     }
     public ApiCallBuilder setUrl(String url){
@@ -138,6 +130,7 @@ public class ApiCallBuilder {
             callback.Failed("Expected URL scheme 'http' or 'https' but no colon was found");
             return;
         }
+        if (progress!=null) progress.show();
         Request request;
         switch (method){
             case GET:
@@ -148,7 +141,6 @@ public class ApiCallBuilder {
                 if (Multipartbuilder.getClass().getFields().length==0){
                     Multipartbuilder.addFormDataPart("","");
                 }
-                if (progress!=null) progress.show();
                 RequestBody requestBody = Multipartbuilder.build();
                 request = new Request.Builder()
                         .url(mUrl)
