@@ -15,7 +15,7 @@ Add it in your root build.gradle at the end of repositories:
 	Step 2. Add the dependency
 	
 	dependencies {
-	       implementation 'com.github.developeramit3:ApiCall:6406f7d8dc'
+	       implementation 'com.github.developeramit3:ApiCall:8f4053a663'
 	}
 	
  "# ApiCall"       
