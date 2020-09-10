@@ -23,7 +23,7 @@ Add it in your root build.gradle at the end of repositories:
 Step 3. How use
 "# ApiCall"				
 				
-    new ApiCallBuilder().build(this)
+    ApiCallBuilder.build(this)
                 .isShowProgressBar(true)
                 .setParam(getParam())
                 .setUrl("url")
