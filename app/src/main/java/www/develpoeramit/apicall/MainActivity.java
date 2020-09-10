@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     public void onContinue(View view) {
         ApiCallBuilder.build(this)
                 .isShowProgressBar(true)
-                .setUrl("http://doctor-cars.com/health/webservice/get_banner")
+                .setUrl("https://uniquehometutors.com/tutorapp/api/get_student_banners")
                 .execute(new ApiCallBuilder.onResponse() {
                     @Override
                     public void Success(String response) {
