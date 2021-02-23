@@ -1,5 +1,5 @@
-Add it in your root build.gradle at the end of repositories:
-"# ApiCall"
+# Add it in your root build.gradle at the end of repositories:
+# ApiCall
 
 
      allprojects {
@@ -20,7 +20,7 @@ Add it in your root build.gradle at the end of repositories:
 	
  "# ApiCall"       
 				
-Step 3. How use
+# Step 3. How use
 "# ApiCall"				
 				
     ApiCallBuilder.build(this)
