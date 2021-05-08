@@ -15,7 +15,7 @@
 	Step 2. Add the dependency
 	
 	dependencies {
-	       implementation 'com.github.developeramit3:ApiCall:8f4053a663'
+	       implementation 'com.github.developeramit3:ApiCall:1c3c891913'
 	}
 	
  "# ApiCall"       
@@ -46,6 +46,8 @@
         return param;
     }
    [![](https://jitpack.io/v/developeramit3/ApiCall.svg)](https://jitpack.io/#developeramit3/ApiCall)
+   
+ 
    
    [![](https://jitpack.io/v/developeramit3/ApiCall.svg)](https://jitpack.io/#developeramit3/ApiCall)
     
